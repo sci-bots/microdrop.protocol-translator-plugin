@@ -1,0 +1,38 @@
+{% if GIT_DESCRIBE_NUMBER > '0' %}
+{% set GIT_VERSION = GIT_DESCRIBE_TAG[1:] + '.post' + GIT_DESCRIBE_NUMBER %}
+{% else %}
+{% set GIT_VERSION = GIT_DESCRIBE_TAG[1:] %}
+{% endif %}
+# source will be downloaded prior to filling in jinja templates
+# Example assumes that this folder has setup.py in it
+source:
+  git_url: ../
+
+package:
+  name: microdrop.protocol-translator-plugin
+  version: {{ GIT_VERSION }}
+
+build:
+  number: 0
+  script: python -m mpm.bin.build
+
+requirements:
+  build:
+    - microdrop <2.25
+    - microdrop-plugin-manager >=0.24
+    - path_helpers >=0.2.post3
+    - wheeler.pygtkhelpers >=0.18
+
+  run:
+    - microdrop <2.25
+    - microdrop-plugin-manager >=0.24
+    - path_helpers >=0.2.post3
+    - wheeler.pygtkhelpers >=0.18
+
+test:
+  commands:
+    - python -m mpm.bin.import_test -a {{ PKG_NAME }}
+
+about:
+  home: https://github.com/sci-bots/{{ PKG_NAME }}
+  license: BSD
