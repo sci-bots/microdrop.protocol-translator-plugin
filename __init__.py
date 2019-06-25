@@ -35,8 +35,8 @@ def upgrade_protocol(protocol):
                 "wheelerlab.dmf_control_board_plugin":
                 {"volume_threshold": step_i['dmf_control_board_plugin']['feedback_options']['action']['percent_threshold'] / 100.}})
             del step_i['dmf_control_board_plugin']
-        if 'droplet_planning_plugin' in step:
-            del step['droplet_planning_plugin']['transition_duration_ms']
+        if 'droplet_planning_plugin' in step_i:
+            del step_i['droplet_planning_plugin']['transition_duration_ms']
         return pydash.merge(step_i, step)
 
     protocol_dict = protocol.to_dict()
